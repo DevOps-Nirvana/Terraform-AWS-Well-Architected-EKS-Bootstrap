@@ -1,17 +1,24 @@
+# Misc stuff not for committing so you can have local files/folders for testing purposes
+unused
+unused*
+todo
+old
+
 # Local .terraform directories
 **/.terraform/*
 
 # .tfstate files
 *.tfstate
 *.tfstate.*
+.terraform.lock.hcl
 
 # Crash log files
 crash.log
 crash.*.log
 
 # Exclude all .tfvars files, which are likely to contain sensitive data, such as
-# password, private keys, and other secrets. These should not be part of version 
-# control as they are data points which are potentially sensitive and subject 
+# password, private keys, and other secrets. These should not be part of version
+# control as they are data points which are potentially sensitive and subject
 # to change depending on the environment.
 *.tfvars
 *.tfvars.json
@@ -27,8 +34,24 @@ override.tf.json
 # !example_override.tf
 
 # Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
-# example: *tfplan*
+*tfplan*
 
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+# OS-X
+.DS_Store
+
+# Terraform Temp/build folders
+dist
+build
+builds
+docker-compose-*.yaml
+
+# Editors
+.idea/
+.mypy_cache/
+htmlcov/
+*.sublime-project
+*.sublime-workspace
