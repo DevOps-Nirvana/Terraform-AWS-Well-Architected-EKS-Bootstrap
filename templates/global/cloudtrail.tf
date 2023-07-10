@@ -24,12 +24,6 @@ variable "allow_cloudtrail_access_with_iam" {
   default     = true
 }
 
-variable "cloudtrail_name" {
-  description = "The name of your CloudTrail.  Typically and simply your company name"
-  type        = string
-  # default     = "companyname"
-}
-
 ######### Resources #########
 
 # Create the S3 Bucket where S3 objects will be ARCHIVED after so many days
@@ -270,13 +264,13 @@ data "aws_iam_policy_document" "cloudtrail_key_policy" {
 
 # Create a friendly alias for the KMS Customer Master Key
 resource "aws_kms_alias" "cloudtrail" {
-  name          = "alias/cloudtrail-${var.environment}-${var.cloudtrail_name}"
+  name          = "alias/cloudtrail-${var.environment}-${var.client_name}"
   target_key_id = aws_kms_key.cloudtrail.id
 }
 
 # Enable Cloudtrail
 resource "aws_cloudtrail" "cloudtrail" {
-  name                  = var.cloudtrail_name
+  name                  = var.client_name
   s3_bucket_name        = local.cloudtrail_bucket_name
   is_multi_region_trail = true
 
@@ -290,7 +284,7 @@ resource "aws_cloudtrail" "cloudtrail" {
   # Encrypt all CloudWatch Logs with the KMS Key created above.
   kms_key_id = aws_kms_key.cloudtrail.arn
 
-  tags = merge( module.terraform_tags.tags,{ "Name" = "cloudtrail-${var.cloudtrail_name}" } )
+  tags = merge( module.terraform_tags.tags,{ "Name" = "cloudtrail-${var.environment}-${var.client_name}" } )
 
   depends_on = [
     aws_s3_bucket.cloudtrail,
